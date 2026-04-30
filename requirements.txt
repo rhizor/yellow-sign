@@ -1,0 +1,7 @@
+# Yellow Sign - Requirements
+# Core dependencies
+click>=8.1.0
+colorama>=0.4.6
+
+# No additional required dependencies - uses only Python standard library
+# for the core functionality to keep it lightweight
