@@ -1,0 +1,167 @@
+# 🚫 DO NOT COMMIT THIS FILE
+# Yellow Sign Configuration
+# This is an example file - copy to yellow-sign.yaml and customize
+
+# Scanner configuration
+scanner:
+  # File extensions to scan
+  extensions:
+    - .py
+    - .js
+    - .ts
+    - .java
+    - .go
+    - .rb
+    - .php
+    - .yaml
+    - .yml
+    - .json
+    - .xml
+    - .toml
+    - .ini
+    - .sh
+    - .md
+    - .txt
+    - .env
+    - .conf
+    - .tf
+    - .dockerfile
+    - .vue
+    - .svelte
+    - .html
+
+  # Paths to exclude (directories or files)
+  excludes:
+    - node_modules
+    - vendor
+    - .git
+    - .github
+    - .vscode
+    - .idea
+    - __pycache__
+    - .pytest_cache
+    - venv
+    - env
+    - .venv
+    - dist
+    - build
+    - target
+    - bin
+    - obj
+    - .DS_Store
+    - "*.min.js"
+    - "*.min.css"
+    - package-lock.json
+    - yarn.lock
+    - Gemfile.lock
+    - Pipfile.lock
+    - poetry.lock
+    - "*.pyc"
+    - "*.pyo"
+    - "*.class"
+
+  # Maximum file size to scan (in bytes)
+  max_file_size: 10485760  # 10MB
+
+# Detection rules configuration
+rules:
+  # Custom rules (in addition to built-in rules)
+  custom:
+    # Example custom rule
+    - name: "Company Internal API Key"
+      pattern: "company_[a-zA-Z0-9]{32}"
+      min_entropy: 3.5
+      severity: critical
+      description: "Internal company API key detected"
+      remediation: "Move to internal vault"
+      tags:
+        - internal
+        - api
+
+  # Rule overrides
+  overrides:
+    # Disable specific built-in rules
+    - name: "Generic API Key"
+      enabled: false
+    
+    # Change severity of a rule
+    - name: "JWT Token"
+      severity: high  # default is medium
+
+# Entropy configuration
+entropy:
+  # Thresholds for entropy classification
+  high_threshold: 4.5    # Very likely a secret
+  medium_threshold: 4.0  # Possible secret, review needed
+  low_threshold: 3.5     # Probably not a secret
+
+# Output configuration
+output:
+  # Default output format
+  format: text  # Options: text, json, sarif
+  
+  # Colors in output (for text format)
+  colors: true
+  
+  # Verbose output
+  verbose: false
+
+# Integration configuration
+integrations:
+  # Git hook configuration
+  git_hook:
+    enabled: true
+    fail_on_secrets: true
+    scan_staged_only: true
+
+  # CI/CD configuration
+  ci:
+    fail_build: true
+    comment_on_pr: true
+
+# Severity filtering
+# Only report findings at or above this severity
+min_severity: low  # Options: critical, high, medium, low, info
+
+# Performance configuration
+performance:
+  # Number of parallel workers
+  workers: 4
+  
+  # Enable/disable entropy scanning
+  entropy_scanning: true
+
+# False positive handling
+false_positives:
+  # List of secret hashes to ignore (SHA256 first 16 chars)
+  # Get these from scan results
+  ignored_hashes:
+    # - "abc123def456..."
+    # - "xyz789uvw012..."
+  
+  # Patterns to ignore (regex)
+  ignored_patterns:
+    # - "test_key_[0-9]+"
+    # - "example_secret"
+
+# Logging configuration
+logging:
+  level: INFO  # DEBUG, INFO, WARNING, ERROR
+  file: null  # Set to file path to enable file logging
+
+# Remediation configuration
+remediation:
+  # Enable automatic remediation suggestions
+  enabled: true
+  
+  # Vault provider for storing detected secrets
+  vault:
+    provider: null  # hashicorp, aws, azure, gcp
+    address: null
+    
+  # Create tickets for findings
+  ticketing:
+    enabled: false
+    provider: null  # github, jira
+    project: null
+    assignee: null
