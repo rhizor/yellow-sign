@@ -1,0 +1,14 @@
+# Yellow Sign - Development Requirements
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+
+# Linting and formatting
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.5.0
+
+# Build
+build>=0.10.0
+twine>=4.0.0
